@@ -44,6 +44,7 @@ type CelebrationParticle = {
 }
 
 const participants = ref<Participant[]>([])
+const namesText = ref('')
 const baseSpeed = ref(7)
 const spinDuration = ref(6)
 const spinning = ref(false)
@@ -65,13 +66,6 @@ const celebrationPalette = [...palette, '#f6d7b0', '#ffb347', '#f97316', '#ffd16
 let nextParticleId = 0
 let celebrationRunId = 0
 const celebrationTimers: number[] = []
-
-const namesText = computed({
-  get: () => participants.value.map((participant) => participant.name).join('\n'),
-  set: (value: string) => {
-    syncParticipantsFromText(value)
-  },
-})
 
 const wheelEntries = computed<WheelEntry[]>(() => {
   const parsedEntries = participants.value.map((participant) => {
@@ -129,7 +123,11 @@ function randomBetween(min: number, max: number) {
   return min + Math.random() * (max - min)
 }
 
-function setParticipants(nextParticipants: Participant[]) {
+function syncNamesTextFromParticipants() {
+  namesText.value = participants.value.map((participant) => participant.name).join('\n')
+}
+
+function setParticipants(nextParticipants: Participant[], options?: { syncText?: boolean }) {
   const cleanedParticipants = nextParticipants
     .map((participant) => ({
       name: participant.name.trim(),
@@ -138,6 +136,10 @@ function setParticipants(nextParticipants: Participant[]) {
     .filter((participant) => participant.name)
 
   participants.value = cleanedParticipants
+
+  if (options?.syncText !== false) {
+    syncNamesTextFromParticipants()
+  }
 }
 
 function syncParticipantsFromText(value: string) {
@@ -183,7 +185,13 @@ function syncParticipantsFromText(value: string) {
     participant.protocolCount = matchIndex !== undefined ? participants.value[matchIndex].protocolCount : 0
   }
 
-  setParticipants(nextParticipants)
+  setParticipants(nextParticipants, { syncText: false })
+}
+
+function handleNamesTextInput(event: Event) {
+  const input = event.target as HTMLTextAreaElement
+  namesText.value = input.value
+  syncParticipantsFromText(input.value)
 }
 
 function getNameKey(name: string) {
@@ -617,9 +625,10 @@ onUnmounted(() => {
       <div class="space-y-2">
         <label class="doom-label">Names of the condemned</label>
         <textarea
-          v-model="namesText"
+          :value="namesText"
           rows="10"
           class="doom-textarea"
+          @input="handleNamesTextInput"
         />
       </div>
 
