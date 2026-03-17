@@ -6,7 +6,7 @@ import UiCard from '@/components/ui-card.vue'
 import UiInput from '@/components/ui-input.vue'
 import fallbackNamesCsvUrl from '../names.csv?url'
 
-const GITHUB_NAMES_CSV_URL = 'https://raw.githubusercontent.com/JoelHer/wheel-of-doom/main/names.csv'
+const GITHUB_NAMES_CSV_URL = 'https://raw.githubusercontent.com/JoelHer/wheel-of-doom/refs/heads/main/names.csv'
 const WHEEL_SIZE = 440
 const WHEEL_CENTER = WHEEL_SIZE / 2
 const LABEL_RADIUS = 136
