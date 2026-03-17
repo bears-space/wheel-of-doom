@@ -1,0 +1,19 @@
+import type { Config } from 'tailwindcss'
+
+export default {
+  darkMode: ['class'],
+  content: ['./index.html', './src/**/*.{ts,tsx,vue}'],
+  theme: {
+    extend: {
+      colors: {
+        background: 'hsl(222.2 84% 4.9%)',
+        foreground: 'hsl(210 40% 98%)',
+        card: 'hsl(222.2 47.4% 11.2%)',
+        border: 'hsl(217.2 32.6% 17.5%)',
+        muted: 'hsl(217.2 32.6% 17.5%)',
+        primary: 'hsl(262.1 83.3% 57.8%)',
+      },
+    },
+  },
+  plugins: [],
+} satisfies Config
