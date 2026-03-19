@@ -502,6 +502,8 @@ function getLabelStyle(index: number) {
   if (!entry) return {}
 
   const angle = entry.midAngle - 90
+  const normalizedAngle = ((angle % 360) + 360) % 360
+  const labelRotation = normalizedAngle > 90 && normalizedAngle < 270 ? angle + 180 : angle
   const radians = (angle * Math.PI) / 180
   const x = WHEEL_CENTER + Math.cos(radians) * LABEL_RADIUS
   const y = WHEEL_CENTER + Math.sin(radians) * LABEL_RADIUS
@@ -514,7 +516,7 @@ function getLabelStyle(index: number) {
     top: `${(y / WHEEL_SIZE) * 100}%`,
     maxWidth: `${(maxWidth / WHEEL_SIZE) * 100}%`,
     '--entry-font-scale': `${fontScale}rem`,
-    transform: 'translate(-50%, -50%)',
+    transform: `translate(-50%, -50%) rotate(${labelRotation}deg)`,
   }
 }
 
