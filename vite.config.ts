@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import path from 'node:path'
 
 export default defineConfig({
-  base: '/wheels-of-doom/',
+  base: '/wheel-of-doom/',
   plugins: [vue()],
   resolve: {
     alias: {
